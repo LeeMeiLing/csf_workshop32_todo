@@ -1,0 +1,27 @@
+<form [formGroup]="form" (ngSubmit)="submit()">
+    <table>
+        <tr>
+            Description: <input type="text" formControlName="description">
+            <span *ngIf="form.get('description')?.invalid && form.get('description')?.dirty">
+                <span *ngIf="form.get('description')?.errors?.['required']">Description is mandatory</span>
+                <span *ngIf="form.get('description')?.errors?.['minlength']">Description must be at least 5 characters long</span>
+            </span>
+        </tr>
+        <tr>
+            Priority: 
+            High<input type="radio" name="priority" value='high' formControlName="priority">
+            Medium<input type="radio" name="priority" value='medium' formControlName="priority">
+            Low<input type="radio" name="priority" value='low' formControlName="priority">
+        </tr>
+        <tr>
+            Due Date: <input type="datetime-local" formControlName="dueDate">
+            <span *ngIf="form.get('dueDate')?.dirty">
+                <span *ngIf="isDueDateInvalid()">Due date must not be earlier than now</span>
+            </span>
+        </tr>
+        <tr>
+            <button type="submit" [disabled]="isFormInvalid()"><span *ngIf="editMode">Edit</span><span *ngIf="!editMode">Add</span></button>
+        </tr>
+    </table>
+
+</form>

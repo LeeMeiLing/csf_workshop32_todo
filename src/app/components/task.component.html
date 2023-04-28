@@ -1,0 +1,10 @@
+<table [hidden]="isCompleted">
+    <tr>
+        <td>{{task.description}}</td>
+        <td>{{task.priority}}</td>
+        <td>{{task.dueDate}}</td>
+        <td><button type="button" (click)="markComplete()">completed</button></td>
+        <td><button type="button" (click)="edit()">edit</button></td>
+        <td><button type="button" (click)="delete()">delete</button></td>
+    </tr>
+</table>
