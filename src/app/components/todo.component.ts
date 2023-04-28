@@ -26,13 +26,13 @@ export class TodoComponent implements OnInit, OnChanges{
   }
   
   ngOnInit(): void {
+
     this.form = this.createForm()
   }
 
   ngOnChanges(changes: SimpleChanges): void {
 
     if(this.editMode){
-      console.info('>>> on change')
       this.form = this.fb.group({
         description: this.fb.control<string>(this.taskToEdit.description,[Validators.required,Validators.minLength(5)]),
         priority:this.fb.control<string>(this.taskToEdit.priority),
@@ -53,7 +53,6 @@ export class TodoComponent implements OnInit, OnChanges{
     let dd = new Date(this.form.get('dueDate')?.value)
 
     if(dd < new Date()){
-      console.info('>> date invalid: ', true)
       return true
     }
       
@@ -63,7 +62,6 @@ export class TodoComponent implements OnInit, OnChanges{
     let dd = new Date(this.form.get('dueDate')?.value)
 
     if((this.form.invalid) || this.isDueDateInvalid()){
-      console.info('>> form invalid: ', true)
       return true
     }
       
@@ -72,9 +70,7 @@ export class TodoComponent implements OnInit, OnChanges{
   }
 
   submit(){
-    // let task = this.form.value
     this.onSubmit.next(this.form.value as task)
-
   }
 
 }

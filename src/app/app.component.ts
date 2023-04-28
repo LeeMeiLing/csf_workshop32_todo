@@ -1,4 +1,4 @@
-import { Component, Input, Output } from '@angular/core';
+import { Component, Input, OnInit, Output } from '@angular/core';
 import { task } from './models';
 import { Subject } from 'rxjs';
 
@@ -7,13 +7,22 @@ import { Subject } from 'rxjs';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit{
   
   tasks:task[]=[]
 
   toEdit!:task
 
   onEdit = false
+
+  ngOnInit(): void {
+    
+    let taskHistory = localStorage.getItem('tasks')
+    if(taskHistory){
+      this.tasks = JSON.parse(taskHistory)
+      // localStorage.removeItem('tasks')
+    }
+  }
 
   processForm(task:task){
     if(this.onEdit){
@@ -25,6 +34,7 @@ export class AppComponent {
       this.tasks.push(task)
     }
 
+    localStorage.setItem('tasks', JSON.stringify(this.tasks))
     console.info(this.tasks) // debug
   }
 
@@ -36,6 +46,7 @@ export class AppComponent {
   deleteTask(t:task){
     let toDelete = this.tasks.findIndex( (i) => i.description == t.description && i.dueDate == t.dueDate)
     this.tasks.splice(toDelete,1)
+    localStorage.setItem('tasks', JSON.stringify(this.tasks))
     console.info(this.tasks) // debug
 
   }
